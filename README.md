@@ -1,4 +1,9 @@
 # Mol2vec
+
+This repo is forked from original Mol2vec [repo](https://github.com/samoturk/mol2vec). In this fork;
+
+* featurize reads smi file in chunks and saves results into separate csv files
+
 [Mol2vec](http://pubs.acs.org/doi/10.1021/acs.jcim.7b00616) - an unsupervised machine learning approach to learn vector representations of molecular substructures
 
 [![Documentation Status](https://readthedocs.org/projects/mol2vec/badge/?version=latest)](http://mol2vec.readthedocs.org/en/latest/)
@@ -17,7 +22,7 @@
 * [joblib](https://pythonhosted.org/joblib/)
 
 ## Installation
-`pip install git+https://github.com/samoturk/mol2vec`
+`pip install git+https://github.com/alperyilmaz/mol2vec`
 
 #### Documentation
 Read the documentation on [Read the Docs](http://mol2vec.readthedocs.io/en/latest/).
