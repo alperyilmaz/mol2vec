@@ -483,18 +483,29 @@ def featurize(in_file, out_file, model_path, r, uncommon=None):
         print("Keeping only molecules that can be processed by RDKit.")
         df = df[df['ROMol'].notnull()]
         df['Smiles'] = df['ROMol'].map(Chem.MolToSmiles)
+        print('Featurizing molecules.')
+        df['mol-sentence'] = df.apply(lambda x: MolSentence(mol2alt_sentence(x['ROMol'], r)), axis=1)
+        vectors = sentences2vec(df['mol-sentence'], word2vec_model, unseen=uncommon)
+        df_vec = pd.DataFrame(vectors, columns=['mol2vec-%03i' % x for x in range(vectors.shape[1])])
+        df_vec.index = df.index
+        df = df.join(df_vec)
+        df.drop(['ROMol', 'mol-sentence'], axis=1).to_csv(out_file)
     else:
-        df = pd.read_csv(in_file, delimiter='\t', usecols=[0, 1], names=['Smiles', 'ID'])  # Assume <tab> separated
-        PandasTools.AddMoleculeColumnToFrame(df, smilesCol='Smiles')
-        print("Keeping only molecules that can be processed by RDKit.")
-        df = df[df['ROMol'].notnull()]
-        df['Smiles'] = df['ROMol'].map(Chem.MolToSmiles)  # Recreate SMILES
+        counter=0
+        for chunk in pd.read_csv(in_file, delimiter='\t', usecols=[0, 1], names=['Smiles', 'ID'], chunksize=10000):  # Assume <tab> separated
+            counter += 1
+            PandasTools.AddMoleculeColumnToFrame(chunk, smilesCol='Smiles')
+            #print("Keeping only molecules that can be processed by RDKit.")
+            df = chunk[chunk['ROMol'].notnull()]
+            df['Smiles'] = df['ROMol'].map(Chem.MolToSmiles)  # Recreate SMILES
 
-    print('Featurizing molecules.')
-    df['mol-sentence'] = df.apply(lambda x: MolSentence(mol2alt_sentence(x['ROMol'], r)), axis=1)
-    vectors = sentences2vec(df['mol-sentence'], word2vec_model, unseen=uncommon)
-    df_vec = pd.DataFrame(vectors, columns=['mol2vec-%03i' % x for x in range(vectors.shape[1])])
-    df_vec.index = df.index
-    df = df.join(df_vec)
+            #print('Featurizing molecules.')
+            df['mol-sentence'] = df.apply(lambda x: MolSentence(mol2alt_sentence(x['ROMol'], r)), axis=1)
+            vectors = sentences2vec(df['mol-sentence'], word2vec_model, unseen=uncommon)
+            df_vec = pd.DataFrame(vectors, columns=['mol2vec-%03i' % x for x in range(vectors.shape[1])])
+            df_vec.index = df.index
+            df = df.join(df_vec)
+            filename = out_file.split(".")
+            df.drop(['ROMol', 'mol-sentence'], axis=1).to_csv(filename[0] + "_" + str(counter) + "." + filename[1])
 
-    df.drop(['ROMol', 'mol-sentence'], axis=1).to_csv(out_file)
+    
