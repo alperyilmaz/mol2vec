@@ -90,11 +90,12 @@ Featurizes new samples using pre-trained Mol2vec model. It saves the result in C
 To featurize new samples using pre-trained embeddings and using vector trained on uncommon samples to represent new substructures:
         `mol2vec featurize -i new.smi -o new.csv -m model.pkl -r 1 --uncommon UNK`
 
-If you would like to use Docker images, then please run the following command:
-        `docker run --rm -v $(pwd):/data alperyilmaz/conda-mol2vec mol2vec featurize -i new.smi -o new.csv -m model.pkl -r 1 --uncommon UNK`
-
 For more detail on individual subcommand run:
     `mol2vec $sub-command --help`
+    
+##### Docker example:
+If you would like to use Docker images, then please run the following command:
+        `docker run --rm -v $(pwd):/data alperyilmaz/conda-mol2vec mol2vec featurize -i new.smi -o new.csv -m model.pkl -r 1 --uncommon UNK`
 
 ### How to cite?
 ```bib
