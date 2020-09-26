@@ -3,6 +3,7 @@
 This repo is forked from original Mol2vec [repo](https://github.com/samoturk/mol2vec). In this fork;
 
 * featurize reads smi file in chunks and saves results into separate csv files
+* Dockerfile included for containerized usage
 
 [Mol2vec](http://pubs.acs.org/doi/10.1021/acs.jcim.7b00616) - an unsupervised machine learning approach to learn vector representations of molecular substructures
 
@@ -23,6 +24,18 @@ This repo is forked from original Mol2vec [repo](https://github.com/samoturk/mol
 
 ## Installation
 `pip install git+https://github.com/alperyilmaz/mol2vec`
+
+If you face installation problems, you can use Dockerized version. Simply pull an existing image 
+
+```bash
+docker pull alperyilmaz/conda-mol2vec
+```
+and use Docker image to run mol2vec. Unfortunately, the image might not be available in Docker Hub due to space restrictions, so you can build the image yourself using the `Dockerfile` provided in this repo.
+
+```bash
+cd docker
+docker build .
+```
 
 #### Documentation
 Read the documentation on [Read the Docs](http://mol2vec.readthedocs.io/en/latest/).
@@ -77,6 +90,8 @@ Featurizes new samples using pre-trained Mol2vec model. It saves the result in C
 To featurize new samples using pre-trained embeddings and using vector trained on uncommon samples to represent new substructures:
         `mol2vec featurize -i new.smi -o new.csv -m model.pkl -r 1 --uncommon UNK`
 
+If you would like to use Docker images, then please run the following command:
+        `docker run --rm -v $(pwd):/data alperyilmaz/conda-mol2vec mol2vec featurize -i new.smi -o new.csv -m model.pkl -r 1 --uncommon UNK`
 
 For more detail on individual subcommand run:
     `mol2vec $sub-command --help`
