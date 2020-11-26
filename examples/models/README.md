@@ -1,4 +1,4 @@
-# smaller model model_300dim.pkl
+# smaller model `model_300dim.pkl`
 
 Pre-trained Mol2vec model which was trained on 20 million compounds downloaded from ZINC using:
 
@@ -7,7 +7,7 @@ Pre-trained Mol2vec model which was trained on 20 million compounds downloaded f
 * skip-gram and window size of 10
 * resulting in 300 dimensional embeddings
 
-# larger model model_1bln.pkl
+# larger model `model_1bln.pkl`
 
 Nearly 1 billion drug-like chemicals from ZINC20 were used for training. Roughly, following steps were followed (codes can be run within container using the code: `sudo docker run -it --rm -v $(pwd):/data alperyilmaz/conda-mol2vec bash`
 
