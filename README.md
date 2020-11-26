@@ -4,6 +4,7 @@ This repo is forked from original Mol2vec [repo](https://github.com/samoturk/mol
 
 * featurize reads smi file in chunks and saves results into separate csv files
 * Dockerfile included for containerized usage
+* Model for 1 billion compounds added along with instructions
 
 [Mol2vec](http://pubs.acs.org/doi/10.1021/acs.jcim.7b00616) - an unsupervised machine learning approach to learn vector representations of molecular substructures
 
