@@ -39,3 +39,10 @@ Although mol2vec allows parallel processing in training step, most of the time i
 mol2vec train -i <(cat corpus/*.cp) -o model_1bln.pkl -d 300 -w 10 -m skip-gram --threshold 3 -j 72
 ```
 
+## Featurize
+
+Since `--uncommon UNK --threshold 3` was omitted during corpus generation for `model_1bln.pkl`, featurize should be run without `--uncommon UNK` option when using 1 billion compound model.
+
+```bash
+mol2vec featurize -i test.smi -o test.csv -m model_1bln.pkl -r 1
+```
