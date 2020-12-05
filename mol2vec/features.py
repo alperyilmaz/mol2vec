@@ -492,7 +492,7 @@ def featurize(in_file, out_file, model_path, r, uncommon=None):
         df.drop(['ROMol', 'mol-sentence'], axis=1).to_csv(out_file)
     else:
         counter=0
-        for chunk in pd.read_csv(in_file, delimiter='\t', usecols=[0, 1], names=['Smiles', 'ID'], chunksize=10000):  # Assume <tab> separated
+        for chunk in pd.read_csv(in_file, delimiter=' ', usecols=[0, 1], names=['Smiles', 'ID'], chunksize=20000):  # smi files are space separated
             counter += 1
             PandasTools.AddMoleculeColumnToFrame(chunk, smilesCol='Smiles')
             #print("Keeping only molecules that can be processed by RDKit.")
